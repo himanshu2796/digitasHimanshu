@@ -1,0 +1,14 @@
+.headerFile{
+    display:flex;
+    background-color: white;
+    margin-top : 30px;
+    margin-left: 250px;
+    margin-right:250px; 
+       
+}
+.headerFile div:last-child{
+    margin-left:auto;
+}
+.headerFile div:first-child{
+    margin-right:auto;
+}

@@ -1,0 +1,51 @@
+.gridImages{
+    display:flex;
+    flex-flow:column wrap;
+    
+    
+}
+.gridView {
+    padding-left: 250px;
+    padding-right:250px; 
+    background-color: grey;
+}
+.btnSlideShow{
+    margin-left:auto;
+    padding-left: 250px;
+    padding-right:250px; 
+    margin-bottom:20px;
+    
+}
+.pageButton{
+    margin-top:20px;
+    padding-left: 250px;
+    padding-right:250px;
+    display:flex; 
+}
+.changePageBtn{
+    
+    margin-left:auto;
+    
+}
+.goToBtn{
+    margin-top:10px;
+    padding-left: 250px;
+    padding-right:250px; 
+}
+.gridImage:hover {
+    opacity: 1;
+
+}
+.MuiGrid-root .MuiButton-root{
+    visibility:hidden;
+}
+.MuiGrid-root img:hover + .MuiButton-root, .MuiButton-root:hover {
+    visibility: visible;
+} 
+
+.Mui-disabled {
+    opacity:0.3
+}
+
+
+
