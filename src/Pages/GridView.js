@@ -8,6 +8,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
+import gridCarouselStore from '../Stores/gridCarouselStores';
 
 
 
@@ -64,21 +65,6 @@ function GridView() {
                 setOriginalImages(json);
             });
     }
-    let urlArr = [];
-    if (Object.keys(images).length > 0 && urlArr.length ===0) {
-        images.photos.photo.forEach((ph,index) => {
-            const photoObj = {
-                index:index,
-                photoId:ph.id,
-                url: `https://farm${ph.farm}.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}`,
-                title: ph.title
-            };
-            urlArr.push(photoObj);
-            
-        });
-        console.log(urlArr);
-    }
-
     const getOriginal = async (photoId) => {
         if(photoId){       
             await  getOriginalUrl(photoId);
@@ -106,51 +92,73 @@ function GridView() {
             }
       }
  
+    let urlArr = [];
+    if (Object.keys(images).length > 0 && urlArr.length ===0) {
+        images.photos.photo.forEach((ph,index) => {
+            const photoObj = {
+                index:index,
+                photoId:ph.id,
+                url: `https://farm${ph.farm}.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}`,
+                title: ph.title
+            };
+            urlArr.push(photoObj);
+            
+        });
+        console.log(urlArr);
+        return (
+
+
+            <div className="gridImages">
+                <div className="btnSlideShow"><Button style={{ visibility: 'visible', borderRadius: 0, backgroundColor: '#f1001c', minWidth: 200, color: '#FFFFFF', padding: '5px 20px', fontFamily: 'Sans-serif', fontSize: 11, textTransform: 'none' }} endIcon={<SlideshowIcon style={{ fontSize: '25px', marginRight: '-5px' }} />} onClick ={()=>gridCarouselStore.changeToCarousel(page)}>
+                    View SlideShow
+                </Button></div>
+                <div className="gridView">
+                    
+                        <Grid container spacing={3} justifyContent="center"
+                            alignItems="center" style={{ backgroundColor: 'lightgrey', margin: '20' }}>
+                                
+                            {Object.keys(images).length>0?urlArr.map((data,id) => (   
+                            <Grid item xs={3} key={id}>
+                                <img style = {{cursor:'pointer'}}onClick = {() => gridCarouselStore.getIndex(data.index,page)} src = {`${data.url}_q.jpg`} title ={data.title} alt="No Image" width="200" ></img>
+                                <Button style={{ borderRadius: 0, backgroundColor: '#f1001c', minWidth: 200, color: '#FFFFFF', marginTop: -60, padding: '5px 20px', fontFamily: 'Sans-serif', fontSize: 11, textTransform: 'none' }} startIcon={<ArrowCircleDownIcon style={{ fontSize: '25px', marginRight: '-5px' }} />} onClick = {() => getOriginal(data.photoId)}>
+                                    Download Original
+                                </Button>
+                            </Grid>
+                             )
+                             ):<CircularProgress />}
+                        </Grid>
+                   
+                </div>
+                <div className="pageButton"><span>Showing page {(images.length !==0||Object.keys(images).length!==0)?images.photos.page:1} of  {(images.length !==0||Object.keys(images).length!==0)?images.photos.pages:1} </span>
+                    <div className="changePageBtn">
+                        <Button disabled ={page===1?true:false} style={{ borderRadius: 0, visibility: 'visible', backgroundColor: '#f1001c', color: '#FFFFFF', padding: '0px 20px', marginRight: 10, fontFamily: 'Sans-serif', fontSize: 10, textTransform: 'none' }} startIcon={<ArrowRightAltIcon style={{ fontSize: '30px', transform: 'rotate(-180deg)', marginRight: '-10px' }} />} onClick ={handleDecrement}>
+                            Previous Page
+                        </Button>
+                        <Button disabled ={page===images.photos.pages?true:false}   style={{ borderRadius: 0, visibility: 'visible', backgroundColor: '#f1001c', color: '#FFFFFF', padding: '0px 20px', fontFamily: 'Sans-serif', fontSize: 10, textTransform: 'none' }} endIcon={<ArrowRightAltIcon style={{ fontSize: '30px', marginLeft: '-10px' }} />} onClick ={handleIncrement}>
+                            Next Page
+                        </Button>
+                    </div>
+                </div>
+                <div className="goToBtn">Go to Page  <input ref = {textInput} type ="number" min = "1" style ={{width:'60px' ,padding:'5px 10px',margin:'0 10px 0 10px'}}></input><Button   style={{ borderRadius: 0, visibility: 'visible', backgroundColor: '#f1001c', color: '#FFFFFF', padding: '5px 20px', fontFamily: 'Sans-serif', fontSize: 12, textTransform: 'none' }} onClick ={goToPage}>
+                            Go
+                        </Button></div>
+    
+            </div>
+        );
+    }
+    else{
+        return(
+        <div></div>
+        );
+    }
+
+    
 
 
 
       
     
-    return (
-
-
-        <div className="gridImages">
-            <div className="btnSlideShow"><Button style={{ visibility: 'visible', borderRadius: 0, backgroundColor: '#f1001c', minWidth: 200, color: '#FFFFFF', padding: '5px 20px', fontFamily: 'Sans-serif', fontSize: 11, textTransform: 'none' }} endIcon={<SlideshowIcon style={{ fontSize: '25px', marginRight: '-5px' }} />}>
-                View SlideShow
-            </Button></div>
-            <div className="gridView">
-                
-                    <Grid container spacing={3} justifyContent="center"
-                        alignItems="center" style={{ backgroundColor: 'lightgrey', margin: '20' }}>
-                            
-                        {Object.keys(images).length>0?urlArr.map((data,id) => (   
-                        <Grid item xs={3} key={id}>
-                            <img src = {`${data.url}_q.jpg`} title ={data.title} alt="No Image" width="200" ></img>
-                            <Button style={{ borderRadius: 0, backgroundColor: '#f1001c', minWidth: 200, color: '#FFFFFF', marginTop: -60, padding: '5px 20px', fontFamily: 'Sans-serif', fontSize: 11, textTransform: 'none' }} startIcon={<ArrowCircleDownIcon style={{ fontSize: '25px', marginRight: '-5px' }} />} onClick = {() => getOriginal(data.photoId)}>
-                                Download Original
-                            </Button>
-                        </Grid>
-                         )
-                         ):<CircularProgress />}
-                    </Grid>
-               
-            </div>
-            <div className="pageButton"><span>Showing page {(images.length !==0||Object.keys(images).length!==0)?images.photos.page:1} of  {(images.length !==0||Object.keys(images).length!==0)?images.photos.pages:1} </span>
-                <div className="changePageBtn">
-                    <Button disabled ={page===1?true:false} style={{ borderRadius: 0, visibility: 'visible', backgroundColor: '#f1001c', color: '#FFFFFF', padding: '0px 20px', marginRight: 10, fontFamily: 'Sans-serif', fontSize: 10, textTransform: 'none' }} startIcon={<ArrowRightAltIcon style={{ fontSize: '30px', transform: 'rotate(-180deg)', marginRight: '-10px' }} />} onClick ={handleDecrement}>
-                        Previous Page
-                    </Button>
-                    <Button disabled ={page===images.photos.pages?true:false}   style={{ borderRadius: 0, visibility: 'visible', backgroundColor: '#f1001c', color: '#FFFFFF', padding: '0px 20px', fontFamily: 'Sans-serif', fontSize: 10, textTransform: 'none' }} endIcon={<ArrowRightAltIcon style={{ fontSize: '30px', marginLeft: '-10px' }} />} onClick ={handleIncrement}>
-                        Next Page
-                    </Button>
-                </div>
-            </div>
-            <div className="goToBtn">Go to Page  <input ref = {textInput} type ="number" min = "1" style ={{width:'60px' ,padding:'5px 10px',margin:'0 10px 0 10px'}}></input><Button   style={{ borderRadius: 0, visibility: 'visible', backgroundColor: '#f1001c', color: '#FFFFFF', padding: '5px 20px', fontFamily: 'Sans-serif', fontSize: 12, textTransform: 'none' }} onClick ={goToPage}>
-                        Go
-                    </Button></div>
-
-        </div>
-    );
+    
 
  
 
