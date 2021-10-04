@@ -1,0 +1,39 @@
+.carouselImages {
+    display:flex;
+    flex-flow:column wrap;
+}
+
+.carouselView {
+    padding-left: 150px;
+    padding-right:150px; 
+    background-color:white;
+}
+.btnSlideShow{
+    margin-left:auto;
+    padding-left: 250px;
+    padding-right:250px; 
+    margin-bottom:20px;
+    
+}
+
+.pageButton{
+    margin-top:20px;
+    padding-left: 250px;
+    padding-right:250px;
+    display:flex; 
+}
+.changePageBtn{
+    
+    margin-left:auto;
+    
+}
+.ownerName {
+    margin-top:10px;
+    padding-left: 250px;
+    padding-right:250px; 
+    display:flex;
+}
+.downloadOriginal {
+    margin-top:15px;
+    margin-left:auto;
+}

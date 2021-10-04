@@ -1,5 +1,4 @@
 import './GridView.css';
-import AttestedPanCard from '../Assets/AttestedPanCard.jpeg';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Grid } from '@material-ui/core';
 import Button from '@mui/material/Button';
@@ -19,7 +18,7 @@ function GridView() {
     let textInput = React.createRef();
     const [images, setImages] = useState([]);
     const [originalImages, setOriginalImages] = useState([]);
-    const [page, setPages] = useState(1);
+    const [page, setPages] = useState(gridCarouselStore.gridPage);
     
     useEffect(() => {
        
